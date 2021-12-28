@@ -7,26 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.myapplication.databinding.MainFragmentBinding
+import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.data.repositories.NewsRepository
 import com.example.myapplication.data.services.RetrofitService
-import com.example.myapplication.ui.news.adapters.MainAdapter
+import com.example.myapplication.databinding.NewsFragmentBinding
+import kotlinx.coroutines.flow.collectLatest
 
 class NewsFragment : Fragment() {
 
-    private var _binding: MainFragmentBinding? = null
+    private var _binding: NewsFragmentBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: NewsViewModel
 
-    private val adapter = MainAdapter()
+    private val adapter = NewsAdapter()
 
     companion object {
         fun newInstance() = NewsFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        _binding = NewsFragmentBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
         return  binding.root
     }
@@ -54,6 +55,9 @@ class NewsFragment : Fragment() {
                 }
             })
             getArticles()
+//            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+//                articlesFlow.collectLatest { adapter.submitData(it) }
+//            }
         }
     }
 

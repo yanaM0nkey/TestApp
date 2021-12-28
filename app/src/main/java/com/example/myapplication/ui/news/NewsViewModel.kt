@@ -20,6 +20,20 @@ class NewsViewModel constructor(private val repository: NewsRepository): ViewMod
 
     val loading = MutableLiveData<Boolean>()
 
+//    private lateinit var _articlesFlow: Flow<PagingData<Article>>
+//    val articlesFlow: Flow<PagingData<Article>>
+//        get() = _articlesFlow
+//
+//    init {
+//        getArticles()
+//    }
+//
+//    private fun getArticles() = launchPagingAsync({
+//        repository.getNews().cachedIn(viewModelScope)
+//    }, {
+//        _articlesFlow = it
+//    })
+
     fun getArticles() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = repository.getNews()
